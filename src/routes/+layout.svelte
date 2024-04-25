@@ -31,7 +31,7 @@ onMount(() => { initWeb3() });
     <nav>
       <ul>
         <li class="hide-before-sm">
-          <a class="contrast" href="https://sepolia.etherscan.io/address/0x6b83Cf999b2B7b7247f068592Be1F8ABef0D7ed7#code" target="_blank">Contract</a>
+          <a class="contrast" href="https://sepolia.etherscan.io/address/0xD08BD72e685Da05f5edFa6cCc989381E06169491#code" target="_blank">Contract</a>
         </li>
         <!--
         <li>

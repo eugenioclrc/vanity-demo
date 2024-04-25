@@ -1,10 +1,10 @@
 <script lang="ts">
 	import { modal } from '$lib/store';
 	import { account, loadReady } from '$lib/store';
-	import { reserve, mint } from "$lib/contracts";
+	import { reserve, mint, deploy } from "$lib/contracts";
 
 import { keccak256 } from 'viem';
-import { stringToHex } from 'viem'
+import { stringToHex, hexToBigInt, toHex} from 'viem'
 import { concat,slice,toBytes,toRlp } from 'viem'
 
 let salt = '';
@@ -12,8 +12,21 @@ let saltBytes12;
 let invalidSalt = false;
 $: if(salt) {
 	invalidSalt = false;
+	let _salt = salt;
+	//String(salt).replace(/^0x/, '');
+	try{
+		_salt = parseInt(_salt, 16)
+	} catch(err) {}
 	try {
-		saltBytes12 = stringToHex( salt, { size: 12 });
+		saltBytes12 = toHex(BigInt(_salt)).slice(2);
+		if(saltBytes12.length < 24) {
+			saltBytes12 = ('0'.repeat(24 - saltBytes12.length)) + saltBytes12;
+		}
+		saltBytes12 = '0x' + saltBytes12.slice(0, 24);
+
+
+		//console.log(_salt.toString(16);
+		console.log("saltBytes12",saltBytes12);
 	} catch (err) {
 		invalidSalt = true;
 	}
@@ -32,6 +45,13 @@ async function doMint() {
 	console.log("Minting");
 	await mint(saltBytes12);
 	alert("Mint done");
+}
+
+async function doDeploy() {
+	const bytecode = prompt("Enter the bytecode of the contract to deploy");
+	console.log("Deploying", saltBytes12);
+	await deploy(hexToBigInt(saltBytes12), bytecode);
+	alert("Deploy done");
 }
 
 // TODO: set factory address
@@ -100,6 +120,8 @@ A simple demo to show how to use CREATE3FACTORY to mint a NFT and park an addres
 			</small>
 			<button on:click|preventDefault={doCommit}>1) Commit</button>
 			<button on:click|preventDefault={doMint}>2) Mint</button>
+			<hr />
+			<button on:click|preventDefault={doDeploy}>3) Deploy and burn</button>
 		</form>
 		
 </main>

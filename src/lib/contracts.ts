@@ -5,12 +5,14 @@ import { parseAbi } from 'viem'
 
 import { writable, get } from 'svelte/store';
 
-export const VANITY = '0x6b83Cf999b2B7b7247f068592Be1F8ABef0D7ed7';
+export const VANITY = '0xD08BD72e685Da05f5edFa6cCc989381E06169491';
 
 const abi = parseAbi([
     //  ^? const abi: readonly [{ name: "balanceOf"; type: "function"; stateMutability:...
     'function mint(address to, bytes12 salt) external',
     'function reserve(bytes32 _commit)',
+    'function deploy(uint256 id, bytes memory code) external returns (address deployed)'
+
 ]);
 
 
@@ -31,6 +33,17 @@ export async function reserve(hash) {
         abi,
         functionName: 'reserve',
         args: [hash],
+    });
+
+    return data;
+}
+
+export async function deploy(id, bytecode) {
+    const data = await writeContract(get(config), {
+        address: VANITY,
+        abi,
+        functionName: 'deploy',
+        args: [id, bytecode],
     });
 
     return data;

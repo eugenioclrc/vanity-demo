@@ -57,7 +57,6 @@ async function doDeploy() {
 // TODO: set factory address
 const FACTORY_ADDR = toBytes('0x00000000231C09b34010207Ca8F37bf1f9dBac7c');
 const PROXY_BYTECODE_HASH = toBytes('0xbb908235335e3d6acecf544d682abde3fae769324b91ff66eae03c7c0fc2a952');
-$: window.w = saltBytes12;
 $: senderHashed = (saltBytes12) ? concat([toBytes('0xD08BD72e685Da05f5edFa6cCc989381E06169491'), toBytes(saltBytes12)]):'';
 $: proxy = slice(keccak256(concat([toBytes('0xff'), FACTORY_ADDR, senderHashed, PROXY_BYTECODE_HASH])),12);
 

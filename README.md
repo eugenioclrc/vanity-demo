@@ -1,0 +1,3 @@
+# create-svelte
+
+# Vanity demo

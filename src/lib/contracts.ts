@@ -5,7 +5,7 @@ import { parseAbi } from 'viem'
 
 import { writable, get } from 'svelte/store';
 
-export const VANITY = '0xeda3a79ec9b506165048630781949806f03001c2';
+export const VANITY = '0x6b83Cf999b2B7b7247f068592Be1F8ABef0D7ed7';
 
 const abi = parseAbi([
     //  ^? const abi: readonly [{ name: "balanceOf"; type: "function"; stateMutability:...
